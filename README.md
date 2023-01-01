@@ -1,6 +1,7 @@
 # 4TH-SEMESTER-CSE
 
 ## IIT KGP
+![Routine](https://user-images.githubusercontent.com/109758341/210178197-6baa3a96-8efd-470e-a986-a36af2ac3fb1.png)
 
 ## Lectures(2021-2022):
 [STOCHASTIC PROCESSES](https://www.youtube.com/playlist?list=PLUfABYNel-fgTWQ7LGeY8_6--wgXyL0d1)
