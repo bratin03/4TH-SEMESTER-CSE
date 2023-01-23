@@ -1,0 +1,1 @@
+void cmnprn(unsigned int);
