@@ -1,1 +1,0 @@
-void fooprn(unsigned int);

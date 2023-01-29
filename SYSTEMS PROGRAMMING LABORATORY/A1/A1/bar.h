@@ -1,1 +1,0 @@
-void barprn(unsigned int);
