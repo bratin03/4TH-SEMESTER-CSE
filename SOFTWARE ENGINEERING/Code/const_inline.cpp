@@ -141,3 +141,24 @@ int main()
 
 // error: assignment of read-only variable ‘str’
 //     str = strdup("JIT, Kharagpur"); // Change the name
+
+int main()
+{
+    const volatile int a = 6;
+    cout << a << endl;
+    a = 7;
+    cout << a << endl;
+}
+// error: assignment of read-only variable ‘a’
+//          a = 7;
+
+int main()
+{
+    const volatile int a = 6;
+    cout << a << endl;
+    int *b = (int *)&a;
+    *b = 9;
+    cout << a << endl;
+}
+// 6
+// 9

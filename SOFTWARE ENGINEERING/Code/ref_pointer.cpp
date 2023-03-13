@@ -35,4 +35,4 @@ int main()
 }
 
 // error: lvalue required as left operand of assignment
-//      &j = k;
+//   &j = k;
