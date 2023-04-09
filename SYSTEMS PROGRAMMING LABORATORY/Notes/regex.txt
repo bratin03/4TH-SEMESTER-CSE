@@ -1,0 +1,94 @@
+1)Write regular expressions for the following patterns.
+(a) A consonant (in upper or lower case).
+(b) A sequence of alphabetic letters containing no vowels.
+(c) A sequence of alphabetic letters containing exactly one vowel.
+(d) A sequence of alphabetic letters containing exactly two vowels.
+(e) A sequence of alphabetic letters containing at least one vowel.
+(f) A sequence containing no non-alphabetic characters.
+(g) An entire line containing no non-alphabetic characters.
+(h) An integer in the hexadecimal notation.
+(i) A line containing at least ten spaces.
+(j) A line containing at least ten non-space characters.
+
+a) "[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]"
+b) "[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]*[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]"
+c) "[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]*[aeiouAEIOU][b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]*"
+d) "[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]*[aeiouAEIOU][b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]*[aeiouAEIOU][b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]*"
+e) "[a-zA-Z]*[aeiouAEIOU][a-zA-Z]*"
+f) "[^a-zA-Z]*"
+g) "^[^a-zA-Z]*$"
+h) "[0-9a-zA-Z][0-9a-zA-Z]*"
+i) ^.*[ ].*[ ].*[ ].*[ ].*[ ].*[ ].*[ ].*[ ].*[ ].*[ ].*$
+j) ^.*[^ ].*[^ ].*[^ ].*[^ ].*[^ ].*[^ ].*[^ ].*[^ ].*[^ ].*[^ ].*$
+
+2)Write a grep command to find each of the following patterns in a text file.
+(a) A line starting with a tab.
+(b) The string foo or the string bar .
+(c) Both the strings foo and bar .
+(d) The string foo followed by the string bar .
+(e) The string foo followed but not immediately by the string bar . Should the line "foobar bar"
+match? Or the line "foo foobar" ? What are the matches (if any)?
+
+a) grep -P "^\t" file.txt
+b) grep -e "foo" -e "bar" file.txt
+   grep 'foo\|bar' filename.txt
+c) grep 'foo.*bar\|bar.*foo' filename.txt
+d) grep 'foo.*bar' filename.txt
+e) ??
+
+3)Write a grep command to locate all the lines in a C file, that contain printf . Note that this printf
+should not come from fprintf or sprintf .
+
+grep -w "printf" file.c
+
+4)You have a C file program.c in which the strings (if any) do not contain the characters { and } . These
+characters are used solely to indicate the beginnings and the ends of blocks. Assume also there are no
+nested blocks in the same line, that is, situations like {{} or {}} or {{}{}} do not occur in a line. Write
+grep commands by which you can identify the following types of lines in program.c .
+(a) Lines in which a block is opened using { but not closed by } in the same line.
+(b) Lines in which a block is closed using } but not opened by { in the same line.
+(c) Lines in which a block is both opened by { and closed by } in the same line.
+
+a) grep "{[^}]*$" file.c
+b) grep "^[^{]*}" x.c 
+c) grep "{.*}" file.c
+
+5)Professor Foojit has a text file foonums.txt in which each line contains five positive integers separated
+by single spaces. There is no extra space at the beginning or at the end of any line. The integers may be
+arbitrarily large, but do not contain leading zero digits. Professor Foojit considers all integers in the range
+500-5000 unlucky. Out of these unlucky numbers, the number 876 is considered super-unlucky. Write
+grep commands by which you can identify the following types of lines in foonums.txt .
+(a) Lines that do not contain the super-unlucky number.
+(b) Lines that do not contain any unlucky number.
+(c) Lines that contain one or more unlucky numbers, neither of which is super-unlucky.
+(d) Lines that contains the super-unlucky number along with (at least) another unlucky number (which
+may again be super-unlucky).
+
+a) grep -wv "876" foonums.txt
+b) grep -Ewv '([5-9][0-9]{2}|[1-4][0-9]{3}|5000)' foonums.txt
+c) grep -Ew '([5-9][0-9]{2}|[1-4][0-9]{3}|5000)' foonums.txt | grep -v -Ew '876'
+d) grep -E '\b876\b.*\b(5[0-9]{2}|[6-9][0-9]{2}|[1-4][0-9]{3}|5000)\b|\b(5[0-9]{2}|[6-9][0-9]{2}|[1-4][0-9]{3}|5000)\b.*\b876\b' foonums.txt 
+
+6) Write a command by which you can find all the files in the current directory, with execute permission
+of the owner. Use ls -l in tandem with grep . What about only the non-directory files with the same
+permission?
+
+ls -l | grep "^...x"
+
+ls -l | grep "^-..x"
+
+8) Study the format of the file /etc/passwd . Write grep commands to find the users with the following
+restrictions.
+(a) Users with 4-digit user IDs.
+(b) Users having bash as the login shell. Users with names like Foobashki Barlov or with login shells
+like rbash must be excluded in the search.
+
+(a) To find users with 4-digit user IDs, you can use the following grep command:
+
+grep -E '^[^:]*:[^:]*:[0-9]{4}:.*$' /etc/passwd
+This command searches for lines in /etc/passwd that have a 4-digit number in the third field (the UID field), and prints the entire line.
+
+(b) To find users with bash as the login shell, but exclude users with names like Foobashki Barlov or with rbash as their shell, you can use the following grep command:
+
+grep -E '^[^:]*:(?!Foobashki Barlov)[^:]*:(?!/bin/rbash)([^:]*\/)?bash.*$' /etc/passwd
+This command searches for lines in /etc/passwd that have "/bash" in the last field (the login shell field), but excludes any lines where the second field (the username field) is "Foobashki Barlov", and also excludes any lines where the login shell is "/bin/rbash" or a subdirectory of it.

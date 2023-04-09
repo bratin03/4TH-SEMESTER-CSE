@@ -1,0 +1,15 @@
+[project]
+name = "my_package"
+version = "1.0.0"
+authors = [
+  { name="Bratin Mondal", email="bratinmondal689@gmail.com" },
+]
+description = "Python DS Assignment"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
