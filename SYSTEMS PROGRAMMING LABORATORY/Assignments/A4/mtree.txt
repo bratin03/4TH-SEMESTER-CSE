@@ -1,0 +1,15 @@
+22
+bear:walrus,
+BM:tiger,
+cat:BM,lion
+cow:deer,elephant
+deer:bear,whale
+dog:rhino,rat
+elephant:,hyena
+lion:monkey,bat
+monkey:dolphin,otter
+rat:goat,cow
+rhino:cat,
+walrus:,AD
+whale:,wolf
+wolf:civet,
