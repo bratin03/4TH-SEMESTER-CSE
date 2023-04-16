@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=Roboto+Slab:wght@500&display=swap');
+
+.admin-page {
+    background: url("../assets/1205.jpg");
+    min-height: 100vh;
+    height: fit-content;
+    color: #040843;
+
+}
+
+.profile-title {
+    font-family: 'Fira Code', monospace;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5rem;
+    padding: 1.4rem;
+}
+
+.admin-info {
+    
+    font-family: 'Fira Code', monospace;
+    font-family: 'Roboto Slab', serif;
+}
+
+.admin-card {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    // color: green;
+    font-family: 'Fira Code', monospace;
+   // font-family: 'Roboto Slab', serif;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #26293f;
+    border-radius: 10px;
+    padding: 1.05rem;
+    font-size: 1rem;
+    // cursor: pointer;
+}
+
+.doctor-label {
+    font-family: 'Fira Code', monospace;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5rem;
+    padding: 1.4rem;
+}
+
+.hospital-container {
+    min-height: 100vh;
+    height: fit-content;
+}
+.hospital-form {
+    display: flex;
+    padding-top: 3rem;
+    justify-content: center;
+}
+.hospital-label {
+    font-family: 'Fira Code', monospace;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5rem;
+    padding: 1.4rem;
+}
