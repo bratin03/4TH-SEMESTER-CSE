@@ -34,7 +34,5 @@
     "**/.vscode/**"
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
-  "files.associations": {
-    "iostream": "cpp"
-  }
+  "C_Cpp_Runner.showCompilationTime": false
 }
