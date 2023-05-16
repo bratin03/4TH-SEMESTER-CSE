@@ -1,0 +1,12 @@
+Use the option -e multiple times.
+This option also helps you specify patterns starting with - .
+
+The option -v prints the lines that do not contain matches.
+
+Use the option -n to print the line numbers before the printed lines.
+
+Use the option -c to print only the number of lines.
+
+Word-based search using the option –w
+
+Use the option -r or -R .
