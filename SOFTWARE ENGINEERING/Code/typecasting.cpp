@@ -229,7 +229,7 @@ int main()
 
     pv = pi;                     // okay
     pi = pv;                     // invalid conversion from ‘void*’ to ‘int*’
-    pv = static_cast<int *>(pv); // okay
+    pi = static_cast<int *>(pv); // okay
     pi = (int *)pv;
 
     j = pd;                    // invalid conversion from ‘double*’ to ‘long int’
