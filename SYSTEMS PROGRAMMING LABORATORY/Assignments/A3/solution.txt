@@ -1,0 +1,73 @@
+s = 13932
+
+
+
+Use of gdb:
+
+run by command:
+
+gdb oops
+
+Step 1: Putting Breakpoint at Line no 16 of the source code by command
+
+break 16
+
+so gdb stops before execution of the instruction
+
+r=f(n);
+
+Step 2: while running through gdb with my roll number with the command
+
+run 21CS10016
+
+the execution stops at line 16.
+
+we give the instruction 
+
+set var n=x 
+
+where x is an integer of our choice and hence we change the value of n from 10000 to x
+
+we continue our execution with the command
+
+continue
+
+Hence the function f is called with new integer x and we get the value of f(x)
+
+Step 3:
+
+We know and also verify that f(10000)=0 and f(20000)=1 and there exists a s which in the smallest integer for which f is 1
+
+We execute a binary search to find s by using step 2 with changing the value of x
+
+The search is given as follows
+
+f(10000) = 0
+
+f(20000) = 1
+
+f(15000) = 1
+
+f(12500) = 0
+
+f(13750) = 0
+
+f(14375) = 1
+
+f(14062) = 1
+
+f(13906) = 0
+
+f(13984) = 1
+
+f(13945) = 1
+
+f(13925) = 0
+
+f(13935) = 1
+
+f(13930) = 0
+
+f(13932) = 1 <--Answer
+
+f(13931) = 0

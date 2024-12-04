@@ -1,0 +1,84 @@
+Q1) Investigate what the shell variables PS1 and PS2 do.
+
+-->
+PS1 and PS2 are environment variables used by the shell to customize the appearance of the command prompt.
+
+PS1 is the primary prompt string, and it defines the format of the prompt displayed to the user when the shell is ready to receive input. By default, PS1 is set to '\s-\v\$ ', which displays the name and version of the shell followed by a $ prompt.
+
+For example, if you open a terminal window, you might see a prompt that looks like this:
+
+bash-5.1$
+In this case, bash is the name of the shell, 5.1 is the version number, and $ is the prompt character.
+
+You can customize the appearance of the prompt by modifying the value of PS1. For example, you could set PS1 to '\u@\h \w\$ ', which would display the username, hostname, and current working directory in the prompt:
+
+username@hostname /path/to/current/directory$
+PS2 is the secondary prompt string, and it is used when the shell expects more input from the user. For example, if you type a command that spans multiple lines, the shell will display PS2 instead of PS1 to indicate that it is waiting for more input. By default, PS2 is set to '> ', which is a simple arrow prompt.
+
+You can also customize the value of PS2 to change the appearance of the secondary prompt. For example, you could set PS2 to 'continue> ', which would display a prompt that indicates the user should continue typing:
+
+continue> some_command \
+...> with_multiple_lines \
+...> of_input
+
+Q2) Type the following command at your bash prompt. What happens? Why does the directory not change?
+‘cd /‘
+
+-->
+
+Q3) Type the following commands. What do you learn?
+x=‘ls -l‘
+echo $x
+echo "$x"
+
+-->
+bratin@bratin03:~/4th Sem$ x=`ls -l`
+bratin@bratin03:~/4th Sem$ echo $x
+total 36 drwxrwxr-x 3 bratin bratin 4096 Feb 21 12:41 ENVIRONMENTAL HUMANITIES drwxrwxr-x 5 bratin bratin 4096 Mar 19 23:47 FORMAL LANGUAGE AND AUTOMATA THEORY -rw-rw-r-- 1 bratin bratin 1039 Jan 1 22:32 README.md drwxrwxr-x 8 bratin bratin 4096 Mar 12 17:05 SOFTWARE ENGINEERING drwxrwxr-x 5 bratin bratin 4096 Apr 8 23:59 SOFTWARE ENGINEERING LABORATORY drwxrwxr-x 5 bratin bratin 4096 Feb 21 20:21 STOCHASTIC PROCESSES drwxrwxr-x 5 bratin bratin 4096 Apr 4 11:46 SWITCHING CIRCUITS AND LOGIC DESIGN drwxrwxr-x 4 bratin bratin 4096 Apr 11 16:22 SWITCHING CIRCUITS LABORATORY drwxrwxr-x 5 bratin bratin 4096 Mar 13 18:21 SYSTEMS PROGRAMMING LABORATORY
+bratin@bratin03:~/4th Sem$ echo "$x"
+total 36
+drwxrwxr-x 3 bratin bratin 4096 Feb 21 12:41 ENVIRONMENTAL HUMANITIES
+drwxrwxr-x 5 bratin bratin 4096 Mar 19 23:47 FORMAL LANGUAGE AND AUTOMATA THEORY
+-rw-rw-r-- 1 bratin bratin 1039 Jan  1 22:32 README.md
+drwxrwxr-x 8 bratin bratin 4096 Mar 12 17:05 SOFTWARE ENGINEERING
+drwxrwxr-x 5 bratin bratin 4096 Apr  8 23:59 SOFTWARE ENGINEERING LABORATORY
+drwxrwxr-x 5 bratin bratin 4096 Feb 21 20:21 STOCHASTIC PROCESSES
+drwxrwxr-x 5 bratin bratin 4096 Apr  4 11:46 SWITCHING CIRCUITS AND LOGIC DESIGN
+drwxrwxr-x 4 bratin bratin 4096 Apr 11 16:22 SWITCHING CIRCUITS LABORATORY
+drwxrwxr-x 5 bratin bratin 4096 Mar 13 18:21 SYSTEMS PROGRAMMING LABORATORY
+
+Q4) Investigate what the bash command eval does. Use the following commands as an example. Explain the
+outputs you get.
+x="ls -l > lsout.txt"
+$x
+eval $x
+$x
+
+-->
+bratin@bratin03:~/SPLAB Bin$ x="ls -l > lsout.txt"
+bratin@bratin03:~/SPLAB Bin$ $x
+ls: cannot access '>': No such file or directory
+ls: cannot access 'lsout.txt': No such file or directory
+bratin@bratin03:~/SPLAB Bin$ eval $x
+bratin@bratin03:~/SPLAB Bin$ $x
+ls: cannot access '>': No such file or directory
+-rw-rw-r-- 1 bratin bratin 2379 Apr 11 22:08  lsout.txt
+
+5) Investigate what the bash command exec does. Use the following commands as an example. Explain the
+outputs you get.
+exec ls -l
+exec ls -l &
+exec ls -l | less
+
+-->
+The exec command in Bash is used to replace the current shell process with a new program specified as arguments to the command. When exec is used with a command, the current shell process is replaced by the specified program and any subsequent commands are not executed.
+
+Let's take a look at the example commands:
+
+exec ls -l: This command replaces the current shell process with the ls -l command, which lists the files in the current directory in long format. After running this command, the shell is no longer running, and the output of ls -l is displayed on the terminal.
+
+exec ls -l &: This command replaces the current shell process with the ls -l command, which is run in the background due to the & symbol. After running this command, the shell is no longer running, and the ls -l command is executed in the background. Because it is running in the background, the output of ls -l is not displayed on the terminal unless it is explicitly redirected to a file or another program.
+
+exec ls -l | less: This command replaces the current shell process with a pipeline that consists of the ls -l command and the less command, which is used to display the output of ls -l one screen at a time. The | symbol is used to pipe the output of ls -l to less. After running this command, the shell is no longer running, and the output of ls -l is displayed in the less program, where it can be navigated and searched as desired.
+
+In all three examples, the exec command causes the current shell process to be replaced by the specified command or pipeline, so no further commands can be executed in the shell after the exec command is run. The specific behavior and output of each command depend on the arguments passed to exec and any additional command-line options used.

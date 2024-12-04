@@ -1,0 +1,304 @@
+• A rule is of the form:
+TargetName: List of dependencies
+    Command 1
+    Command 2
+    Command 3
+...
+• Each line of command must start with a tab.
+• A line (may be empty) not starting with a tab ends the rule.
+• The target may be the name of a file or a symbolic name (phony).
+• The dependency list may be empty (but make knows some default dependencies).
+• Absence of commands in rules is allowed. Such rules mean:
+    • Set the dependencies.
+    • Use a predefined make rule to build the target.
+
+Rule examples
+library: stack.o queue.o
+    ar rcs libstaque.a stack.o queue.o
+
+stack.o: defs.h stack.h
+queue.o: defs.h queue.h
+• library is a phony target that depends on stack.o and queue.o. The build involves
+invoking the ar command.
+• stack.o (a filename target) depends on the header files defs.h and stack.h.
+• queue.o (another filename target) depends on the header files defs.h and queue.h.
+• What make already knows is this:
+    • stack.o also depends on stack.c, and queue.o also depends on queue.c. There is no need
+        to specify these dependencies.
+    • stack.o can be obtained from stack.c and queue.o from queue.c by invoking gcc –c. It is
+        not needed to write the commands explicitly.
+• What make does not know is what additional compilation flags you need with gcc –c.
+
+Make variables
+• Variables can be set using the assignment operator = (recursive) or := (evaluate once).
+• a variable VAR can be accessed as $(VAR) or ${VAR}.
+• Default variables
+    • SHELL specifies which shell to use for running the commands.
+    • CC specifies the C compiler you want to use.
+    • CFLAGS stands for the additional compilation flags that you use during gcc –c.
+
+SHELL = /bin/sh
+CC = gcc
+CFLAGS = -O2 -g -I.
+AR = ar
+LIBNAME = libstaque.a
+OBJFILES = stack.o queue.o
+
+library: $(OBJFILES)
+    $(AR) rcs $(LIBNAME) $(OBJFILES)
+
+$(OBJFILES): defs.h
+stack.o: stack.h
+queue.o: queue.h
+
+A dash before a command directs make to ignore errors. Here, if the directory
+/usr/include/staque already exists, mkdir fails. But make moves forward ignoring the
+error.
+
+RM = rm -f
+clean:
+    -$(RM) $(OBJFILES)
+distclean:
+    -$(RM) $(OBJFILES) $(LIBNAME)
+
+Q1)Some (but not all) targets in a software project needs rebuilding. You do not want to rebuild these targets
+actually. Instead you only want to know what commands will be executed for updating the targets. Figure
+out how you can run make to do this.
+-->
+make -n mytarget
+
+Q2)Investigate how you can force make to rebuild a target and all its dependencies even if one or more of
+these targets are up-to-date.
+-->
+make -B target
+
+Q3)
+a: b c
+@echo "Building a"
+b: c a
+@echo "Building b"
+c: a b
+@echo "Building c"
+
+-->
+bratin@bratin03:~/SPLAB Bin$ make a
+make: Circular c <- a dependency dropped.
+make: Circular c <- b dependency dropped.
+Building c
+make: Circular b <- a dependency dropped.
+Building b
+Building a
+
+bratin@bratin03:~/SPLAB Bin$ make b
+make: Circular a <- b dependency dropped.
+make: Circular a <- c dependency dropped.
+Building a
+make: Circular c <- b dependency dropped.
+Building c
+Building b
+
+bratin@bratin03:~/SPLAB Bin$ make c
+make: Circular b <- c dependency dropped.
+make: Circular b <- a dependency dropped.
+Building b
+make: Circular a <- c dependency dropped.
+Building a
+Building c
+
+Q4)Consider the following makefile containing an error (the command ecko). You run make, make -k, and
+make -i. What differences do you see? Explain.
+a: b c
+@echo "Building a"
+b:
+@ecko "Building b"
+c:
+@echo "Building c"
+-->
+bratin@bratin03:~/SPLAB Bin$ make -k
+/bin/sh: 1: ecko: not found
+make: *** [makefile:4: b] Error 127
+Building c
+make: Target 'a' not remade because of errors.
+
+bratin@bratin03:~/SPLAB Bin$ make -i
+/bin/sh: 1: ecko: not found
+make: [makefile:4: b] Error 127 (ignored)
+Building c
+Building a
+
+Q5)Consider the following two makefiles.
+makefile1
+A = $(B)
+B = "Hello"
+all:
+@echo $(A)
+makefile2
+A := $(B)
+B = "Hello"
+all:
+@echo $(A)
+What difference(s) do make -f makefile1 and make -f makefile2 exhibit? Explain why
+-->
+The two makefiles exhibit different behavior when run with make.
+
+In makefile2, the variable A is defined as the value of B, and B is defined as the string "Hello". However, since B is not defined until after A is defined, the value of A will be an empty string, resulting in no output when make all is run.
+
+In makefile1, A is defined using the = assignment operator, which evaluates the value of B and assigns it to A. Since B is defined before A is assigned, the value of A will be the string "Hello", and this will be output when make all is run.
+
+Therefore, when running make -f makefile1 all, no output will be produced, while running make -f makefile2 all will produce the output "Hello".
+
+Q6)6. [Target-specific variables] Consider the following makefile.
+A = $(B)
+one:
+@echo $(A) $(B)
+two:
+@echo $(A) $(B)
+You want make one to print abra abra, and make two to print cadabra cadabra. You are not
+allowed to change the above five lines. Explain how you can add some extra lines to this makefile in
+order to achieve your goal.
+-->
+A = $(B)
+
+one:
+	@echo $(A) $(B)
+
+two:
+	@echo $(A) $(B)
+one:B=abra
+two:B=cabra
+
+Q7)A software project builds a library libfoobar.a by compiling foo.c and bar.c. The file foo.c includes foo.h, whereas the file bar.c includes bar.h. The header file foo.h in turn includes foobar.h,
+foo1.h, and foo2.h, whereas the header file bar.h includes foobar.h, bar1.h, bar2.h, and bar2.h.
+All the files reside in the same directory. Write a makefile to build the library. You do not have to actually
+write any .c or .h file
+-->
+1))
+libfoobar.a: foo.o bar.o
+	ar rcs libfoobar foo.o bar.o
+
+foo.o: foo.h
+foo.h:foobar.h foo1.h foo2.h
+bar.o:bar.h
+bar.h:foobar.h bar1.h  bar2.h
+
+2))
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+AR = ar rcs
+
+# Source files
+FOO_SRC = foo.c
+BAR_SRC = bar.c
+
+# Object files
+FOO_OBJ = $(FOO_SRC:.c=.o)
+BAR_OBJ = $(BAR_SRC:.c=.o)
+
+# Header files
+FOO_H = foo.h foobar.h foo1.h foo2.h
+BAR_H = bar.h foobar.h bar1.h bar2.h
+
+# Default target
+all: libfoobar.a
+
+# Compile foo.c into foo.o
+$(FOO_OBJ): $(FOO_SRC) $(FOO_H)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compile bar.c into bar.o
+$(BAR_OBJ): $(BAR_SRC) $(BAR_H)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Create the library libfoobar.a
+libfoobar.a: $(FOO_OBJ) $(BAR_OBJ)
+	$(AR) $@ $^
+
+# Clean up
+clean:
+	rm -f $(FOO_OBJ) $(BAR_OBJ) libfoobar.a
+
+Q8)Suppose that you want to create a dynamic library of functions for working with rational numbers of the
+form a/b with a any integer and with b a positive integer. To do this, you declare the rational data type
+(and nothing else) in a header file rat.h. Then, you write three C files along with three corresponding
+header files.
+rbasic.c (and rbasic.h): This defines a gcd() function and another function rconv() that converts
+a rational number a/b to the lowest terms satisfying gcd(a,b) = 1.
+rarith.c (and rarith.h): This defines basic arithmetic functions on rational numbers: radd(),
+rsub(), rmul(), and rdiv().
+rmath.c (and rmath.h): This defines the functions r2dbl() [convert a/b to a double], rsqrt()
+[double-valued square root of a rational number], and rlog() [double-valued log of a rational number].
+This file uses the math library available in a standard system directory as libm.a.
+All the files related to rational numbers reside in one directory. Write a makefile in the directory to
+generate the dynamic library librational.so. You do not have to actually write any .c or .h file
+
+CC := gcc
+CFLAGS := -Wall -fPIC
+
+OBJS := rbasic.o rarith.o rmath.o
+LIB := librational.so
+
+all: $(LIB)
+
+$(LIB): $(OBJS)
+	$(CC) -shared -lm -o $@ $^
+
+rbasic.o: rbasic.h rat.h
+rarith.o: rarith.h rat.h
+rmath.o: rmath.h rat.h
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
+
+clean:
+	rm -f $(OBJS) $(LIB)
+
+Q9)9. You have a project whose files are stored in the following directory hierarchy. The root of the project
+is the directory /home/foobar/project, which has two subdirectories basics and utilities. The
+utilities directory further has two subdirectories online and offline. Each directory (including
+the project root) has a makefile which can be used independently of one another. But to build the project,
+all the makefiles in all the directories must be used. Show how you can build the project by executing a
+single make command from the command prompt (write the makefile this make command will execute
+
+-->
+# Makefile for building the project
+
+.PHONY: all clean
+
+all:
+	cd basics && make
+	cd utilities/online && make
+	cd utilities/offline && make
+
+clean:
+	cd basics && make clean
+	cd utilities/online && make clean
+	cd utilities/offline && make clean
+
+Q10). You need to build two separate libraries libfoo.a and libbar.a. The foo files reside in a subdirectory
+foo, and the bar files reside in a subdirectory bar. Each subdirectory has its independent makefile to build
+the corresponding library in the respective directory. The foo library is independent, but the compilation
+of the bar library uses the flags -L../foo and -lfoo to use the functions in libfoo.a. The source files
+of the bar directory include appropriate header files from the foo directory. But the makefile of the bar
+directory does not specify dependencies on any of the foo files. So you need to build libfoo.a first and
+then libbar.a. Write a makefile to prepare the two libraries using a single make command.
+(a) How do you compile an application program in the current directory, that uses only the bar library?
+(b) Suppose that the sources of the foo library are changed. If you run make from the curre
+
+-->
+# Makefile for building libfoo.a and libbar.a
+
+.PHONY: all clean
+
+all:
+	$(MAKE) -C foo
+	$(MAKE) -C bar
+
+clean:
+	$(MAKE) -C foo clean
+	$(MAKE) -C bar clean
+
+# Dependencies
+bar/libbar.a: foo/libfoo.a
+
+# Compiler flags for libbar.a
+bar/libbar.a: CFLAGS += -L../foo -lfoo
+

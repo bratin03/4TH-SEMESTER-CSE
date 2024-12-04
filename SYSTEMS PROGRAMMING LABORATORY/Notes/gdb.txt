@@ -1,0 +1,387 @@
+$ gcc -Wall -g tarea.c
+$ gdb ./a.out
+run
+quit
+list
+break
+next
+continue
+info break
+disable
+enable
+delete
+print x1
+print $1
+display area
+set var b = 2
+
+• next does not go into function calls.
+• step goes into function calls.
+• If you want to go into recursive calls, use steps before any such call.
+• finish or return leaves the function without further stepping.
+• finish continues normally to the end of the function, prints the returned value, and
+adds this value to the value history.
+• return leaves the function immediately after you ask gdb to do so.
+• You may set an explicit breakpoint at a function name.
+• Except for function calls, step and next work the same way.
+
+• A function call defines a frame.
+• Commands to work with frames:
+• frame: List information about the current frame
+• info frame: List more detailed information about the current frame
+• backtrace: Print the entire stack from top to bottom
+• up: Move one step up in the stack (toward the stack bottom, up in the call tree)
+• down: Move one step down in the stack (toward the stack top, down in the call tree)
+• Note: up/down does not change the execution to go up or down. You only move
+inside the stack, and can see the details of the frames in the stack.
+
+Q1)Explain how you can do the following tasks using the list directive of gdb.
+(a) Start the listing of a specified function.
+(b) Change the number of lines printed in each list directive.
+(c) List a file backward. (You have a 1000-line file. Normal listing prints lines 1–10, 11–20, 21–30, ...,
+991–1000. You want to list lines 991–1000, 981–990, ..., 11–20, 1–10 in that order. You should avoid
+specifying the line numbers explicitly.)
+
+-->
+
+(a) To start listing a specified function in gdb, you can use the list command followed by the function name as an argument. For example, if you want to start listing the function my_function(), you would type:
+
+
+(gdb) list my_function
+This will display the source code of my_function() and the 10 lines of code that come after it.
+
+(b) To change the number of lines printed in each list directive, you can use the -s option followed by the number of lines you want to display. For example, to display 20 lines of code for each list command, you would type:
+
+
+(gdb) list -s 20
+(c) To list a file backward in gdb, you can use the -r option followed by the name of the file you want to display. For example, to list a 1000-line file called myfile.c backward, you would type:
+
+
+(gdb) list -r myfile.c
+By default, gdb displays the last ten lines of the file first. To change the number of lines displayed in each command, you can use the -s option as described above. To reverse the order of the lines, you can use the -s option followed by a negative number. For example, to display the file in reverse order with 20 lines of code for each list command, you would type:
+
+
+(gdb) list -r -s -20 myfile.c
+This will display the last 20 lines of the file first, then the previous 20 lines, and so on, until it reaches the first line of the file.
+
+Q2)You have written a program in four .c files. The three files part1.c, part2.c and part3.c implement
+some functions. The file allparts.c contains the main function (along possibly with some others). You
+include the individual parts as #include "partx.c" in allparts.c. Show how you should compile
+to generate the final executable file a.out with debugging enabled. You run this using gdb. If you use
+the list directive, what do you see? Explain how you can list the individual part files partx.c (with line
+numbers). Also explain how you can set breakpoints at specified line numbers in the part files
+
+-->
+To compile and generate the final executable file a.out with debugging enabled, you can use the following command:
+
+
+gcc -g allparts.c part1.c part2.c part3.c -o a.out
+The -g flag is used to include debugging information in the executable file.
+
+To run the executable using gdb, you can use the following command:
+
+
+gdb a.out
+Once you are inside gdb, you can use the list directive to see the source code of the current function or the next ten lines of source code if no current function is selected.
+
+To list the individual part files with line numbers, you can use the list command followed by the filename and the starting line number, like this:
+
+
+list part1.c:1
+This will list the contents of part1.c starting from line 1.
+
+To set breakpoints at specified line numbers in the part files, you can use the break command followed by the filename and line number, like this:
+
+
+break part2.c:15
+This will set a breakpoint at line 15 of part2.c. You can then use the run command to start the program and step, next, and continue commands to navigate through the code and debug it.
+
+Q3)You have the same situation as in the previous exercise. But now, you do not #include "partx.c" in
+allparts.c. You instead generate individual object files part1.o, part2.o, and part3.o. Finally,
+you combine these object files and allparts.c to generate an a.out with debugging enabled. Mention
+the compilation commands you use in the process. You run a.out using gdb. If you use the list directive,
+what do you see? Explain how you can list the individual part files partx.c (with line numbers). Also
+explain how you can set breakpoints at specified line numbers in the part files
+
+-->
+
+gcc -g -c part1.c -o part1.o
+gcc -g -c part2.c -o part2.o
+gcc -g -c part3.c -o part3.o
+
+gcc -g allparts.c part1.o part2.o part3.o -o a.out
+
+Q4)Repeat the last two exercises under the assumption that the part files partx.c reside in a subdirectory
+-->
+A)
+gcc -g allparts.c src/part1.c src/part2.c src/part3.c -o a.out
+gdb a.out
+list src/part1.c:1
+break src/part2.c:15
+
+
+B)
+gcc -g -c src/part1.c -o part1.o
+gcc -g -c src/part2.c -o part2.o
+gcc -g -c src/part3.c -o part3.o
+gcc -g allparts.c part1.o part2.o part3.o -o a.out
+gdb a.out
+list src/part1.c:1
+break src/part2.c:15
+
+Q5)How can you load or replace an executable file for running, from the command prompt of gdb?
+-->
+(gdb) file /path/to/new_executable
+
+(gdb) file /path/to/new_executable -r
+
+Q6)How can you re-run a program in gdb from the beginning? What happens to the breakpoints set in the earlier run? The values of the variables set in the earlier run? The value history?
+
+-->
+To re-run a program in gdb from the beginning, you can use the run or r command. This command starts the program execution from the beginning and runs it until it terminates or hits a breakpoint.
+
+When you re-run a program in gdb, any breakpoints that you set in the earlier run are preserved, unless you explicitly delete them using the delete or clear commands. The values of variables that you set in the earlier run are not preserved, unless you saved them using the set variable or set history commands. The value history is also not preserved, unless you explicitly saved it using the save command.
+
+To summarize:
+
+Breakpoints set in the earlier run are preserved unless you delete them.
+Values of variables set in the earlier run are not preserved unless you explicitly saved them.
+Value history is not preserved unless you explicitly saved it.
+Note that if you re-run a program with the same arguments as in the earlier run, gdb may reuse the same process ID (PID) for the new run. In this case, any open file descriptors, shared memory segments, or other system resources may be inherited from the earlier run, which may affect the behavior of the program. To avoid this, you can use the set follow-fork-mode command to control the behavior of gdb when the program forks a new 
+
+Q7)How can you print the value history in gdb? How can you print variables or expressions without sending
+the printed value to the value history?
+
+-->
+To print the value history in gdb, you can use the show values command. This command displays the current value history for all variables that have been accessed in the current debugging session.
+
+To print a variable or expression without sending the printed value to the value history, you can use the print or p command with the /d modifier. This modifier disables the value history for the printed expression.
+
+For example, to print the value of a variable x without sending it to the value history, you can use the following command:
+
+
+(gdb) print /d x
+This command prints the current value of x and does not add it to the value history. Note that this command does not affect the value history for x that was recorded before this command was executed.
+
+Alternatively, you can use the output or printf command to print a value without sending it to the value history. These commands allow you to format the output in various ways, and do not add the printed value to the value history.
+
+For example, to print the value of x in hexadecimal format, without sending it to the value history, you can use the following command:
+
+
+(gdb) printf "x = 0x%x\n", x
+This command prints the value of x in hexadecimal format and does not add it to the value history. Note that this command does not affect the value history for x that was recorded before this command was executed.
+
+Q8)Study how to ignore breakpoints.
+
+In gdb, you can ignore breakpoints using the ignore command. This command allows you to specify the number of times a breakpoint should be ignored before it becomes active again.
+
+The syntax of the ignore command is as follows:
+
+
+ignore [breakpoint] [count]
+where breakpoint is the number or name of the breakpoint to ignore, and count is the number of times to ignore the breakpoint. If count is not specified, it defaults to 1.
+
+For example, to ignore the breakpoint numbered 1 for the next 5 hits, you can use the following command:
+
+
+(gdb) ignore 1 5
+This command tells gdb to ignore breakpoint number 1 for the next 5 times it is hit. After the 5th hit, the breakpoint becomes active again.
+
+You can also use the condition command to specify a condition under which a breakpoint should be ignored. This allows you to selectively ignore a breakpoint based on the value of a variable or expression.
+
+For example, to ignore breakpoint number 1 when the value of the variable i is less than 10, you can use the following commands:
+
+
+(gdb) condition 1 i < 10
+(gdb) ignore 1
+The first command sets a condition on breakpoint number 1 to ignore it when the value of i is less than 10. The second command ignores the breakpoint without specifying a count, which means it will remain ignored until the condition is no longer satisfied.
+
+To list all ignored breakpoints, you can use the info breakpoints command with the ignored option:
+
+
+(gdb) info breakpoints ignored
+This command lists all breakpoints that are currently ignored, along with their ignore count and condition (if any).
+
+To clear an ignored breakpoint, you can use the enable command with the breakpoint number:
+
+
+(gdb) enable 1
+This command enables breakpoint number 1, which removes it from the list of ignored breakpoints.
+
+Q9)Explain how you can use new gdb variables not defined in the source file(s).
+
+-->In gdb, you can define and use new variables that are not defined in the source files by using the set command with the var syntax. This allows you to create new variables that can be used in your debugging session to hold values or to control the behavior of your program.
+
+The syntax of the set command with the var syntax is as follows:
+
+
+set $var = expression
+where $var is the name of the new variable you want to create and expression is an expression that evaluates to the value you want to assign to the new variable.
+
+For example, to create a new variable named my_var with a value of 42, you can use the following command:
+
+
+(gdb) set $my_var = 42
+Once the variable is defined, you can use it in your debugging session just like any other variable. For example, you can print its value using the print command:
+
+
+(gdb) print $my_var
+You can also use the new variable in expressions and conditions. For example, to set a breakpoint that triggers when my_var is greater than 50, you can use the following command:
+
+
+(gdb) break main if $my_var > 50
+This sets a breakpoint on the main function that is conditional on the value of my_var.
+
+To list all defined variables, you can use the info variables command:
+
+
+(gdb) info variables
+This command lists all variables that are currently defined in the debugging session, including both source variables and variables defined using the set command.
+
+Note that variables defined using the set command are not saved when the debugging session ends. If you want to use the same variables in future debugging sessions, you will need to define them again each time.
+
+Q10)[Conditional break] You have the following loop (with the specified line numbers) in your C program.
+123 for (n=0; n<1000000; ++n) {
+124 ...
+...
+234 a = p -> value;
+...
+344 ...
+345 }
+You notice that the program encounters a segmentation fault, because p unexpectedly becomes NULL at
+line 234 for some (not all) value(s) of n. Propose a break instruction for gdb so that you can easily detect
+whenever this happens for the first time. Also explain how you can get the value of n at this point.
+
+-->To detect when p becomes NULL for the first time during the loop, we can set a conditional breakpoint at line 234 with the condition p == NULL. This will pause the program execution whenever p becomes NULL for the first time, allowing us to examine the values of variables and understand what caused the issue.
+
+Here's how to set the conditional breakpoint in gdb:
+
+
+(gdb) break 234 if p == NULL
+Once the program execution is paused at the breakpoint, we can examine the value of n using the print command:
+
+
+(gdb) print n
+This will print the value of n at the point where the breakpoint was hit. We can also examine the values of other variables to understand what caused p to become NULL.
+
+Once we have examined the state of the program, we can resume program execution using the continue command:
+
+
+(gdb) continue
+This will resume program execution until the next breakpoint is hit, or until the program terminates. If we want to continue execution without hitting any more breakpoints, we can use the disable command to temporarily disable the breakpoint:
+
+
+(gdb) disable
+This will disable the breakpoint until we explicitly enable it again using the enable command.
+
+Q11)You have the following loop (with the specified line numbers) in your C program.
+123 for (n=0; n<1000000; ++n) {
+124 ...
+...
+234 a = f(n);
+...
+344 ...
+345 }
+Suppose that the loop works without errors for 0 6 n < n0, and some problem happens in the return
+values of the function calls f(n) for n0 6 n < 1000000. You want to locate the exact value of n0 using
+gdb. Assume that you can understand a faulty return value by simply inspecting it. Propose an efficient
+strategy of doing this interactively from the gdb prompt.
+
+-->binary search
+
+Q12)[Watchpoints] A breakpoint is a point where the execution of a program in gdb stops conditionally or
+unconditionally. A watchpoint is a point where the execution stops whenever the value of a variable or expression changes. This can often be a powerful debugging tool. For example, if a buffer overflow corrupts
+some variable(s) unintentionally, the source of the problem can be effectively identified by this feature.
+Investigate how you can set a watchpoint, list all watchpoints set, enable/disable/delete watchpoints.
+
+-->
+In gdb, we can use watchpoints to stop execution of a program whenever the value of a variable or expression changes. Here's how we can set, list, enable/disable, and delete watchpoints:
+
+Set a watchpoint:
+
+(gdb) watch variable
+This sets a watchpoint on the variable named variable. Whenever the value of variable changes, the program will stop execution and return control to gdb.
+
+List all watchpoints:
+
+(gdb) info watchpoints
+This lists all currently set watchpoints, along with their ID numbers, the expressions being watched, and other information.
+
+Enable/disable watchpoints:
+
+(gdb) enable watchpoint
+(gdb) disable watchpoint
+These commands respectively enable and disable the watchpoint with the given ID number. We can find the ID number by using the info watchpoints command.
+
+Delete a watchpoint:
+
+(gdb) delete watchpoint
+This deletes the watchpoint with the given ID number. Again, we can find the ID number by using the info watchpoints command.
+
+Note that watchpoints can be expensive in terms of system resources, since gdb has to keep checking the value of the watched variable or expression at every step of program execution. Therefore, it's generally a good idea to use them only when necessary, and to disable or delete them when they're no longer needed.
+
+Q13)Investigate how you can examine the contents of your program’s memory using the x command
+-->
+The x command in gdb allows you to examine the contents of your program's memory. The syntax for the x command is:
+
+
+x/[format] address
+where format specifies the format in which the data should be displayed and address specifies the location in memory to examine.
+
+The following are the common formats used with x:
+
+x: displays the contents of memory as hexadecimal values
+d: displays the contents of memory as signed decimal values
+u: displays the contents of memory as unsigned decimal values
+o: displays the contents of memory as octal values
+t: displays the contents of memory as binary values
+a: displays the contents of memory as ASCII characters
+You can also specify the number of units to display using the /count modifier. For example, x/4x address displays 4 units of memory starting at address.
+
+Here are some examples of how to use the x command in gdb:
+
+x/x 0x1234: displays the contents of memory at address 0x1234 as hexadecimal values.
+x/d &var: displays the contents of the variable var as signed decimal values.
+x/a $esp: displays the contents of the stack pointer register as ASCII characters.
+x/4x $ebp: displays the 4 units of memory starting at the base pointer register as hexadecimal values.
+You can also use the x command with expressions. For example, x/4x (char*) buffer displays the 4 units of memory starting at the address stored in the buffer variable as hexadecimal values interpreted as characters.
+
+Note that the x command can be used in combination with other gdb commands, such as setting breakpoints or watchpoints.
+
+Q14)You set a breakpoint at the first printf line in the following program.
+int main ()
+{
+int i, A[5] = {15,16,17};
+printf("Hello\n");
+for (i=0; i<5; ++i)
+printf("A[%d] = %d\n", i, A[i]);
+}
+Examine what x/5wx A, x/5wx A+1, x/5wx A-1, and x/1wx &i print at the breakpoint. Explain.
+Notice that i is uninitialized at this point
+
+-->
+
+(gdb) x/5wx A
+0x7fffffffdbf0:	0x0000000f	0x00000010	0x00000011	0x00000000
+0x7fffffffdc00:	0x00000000
+(gdb) x/5wx A+1
+0x7fffffffdbf4:	0x00000010	0x00000011	0x00000000	0x00000000
+0x7fffffffdc04:	0x00007fff
+(gdb) x/5wx A-1
+0x7fffffffdbec:	0x00005555	0x0000000f	0x00000010	0x00000011
+0x7fffffffdbfc:	0x00000000
+(gdb) x/1wx &i
+0x7fffffffdbec:	0x00005555
+(gdb) 
+
+
+Q15)You write a C program in which Line 100 (this line is in your main() function) makes the following
+assignment.
+z = f(x) + g(y);
+Here, f() and g() are two functions in your program, and are called for the first time in this line. Both
+these functions are called multiple times later, but you suspect that there is some problem in the first
+call g(y). You need to scrutinize how g() works line by line only in the first call (but not in the later
+calls). Also, you do not want to scrutinize the line-by-line working of f() in any of its calls. Explain how
+you can use gdb interactively to solve this debugging problem. Notice that you do not know beforehand
+whether f(x) or g(y) is computed first before the addition and assignment to z.
+

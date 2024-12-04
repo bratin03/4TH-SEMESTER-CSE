@@ -1,0 +1,60 @@
+Alamosaurus:sauropod:21::H:70-65:USA
+Albertaceratops:ceratopsian:7::H:80-75:Canada, USA
+Albertosaurus:large theropod:9:1500:C:76-74:Canada
+Allosaurus:large theropod:12:2000:C:156-144:Portugal, USA
+Ankylosaurus:armored dinosaur:7:4000:H:74-67:Canada, USA
+Antarctosaurus:sauropod:18::H:84-65:Argentina, Chile, Uruguay
+Apatosaurus:sauropod:21::H:154-145:USA
+Aragosaurus:sauropod:18::H:132-121:Spain
+Archaeopteryx:small theropod:0.5::C:147:Germany
+Argentinosaurus:sauropod:35:70000:H:90:Argentina
+Avaceratops:ceratopsian:2.3::H:80-75:USA
+Bactrosaurus:euornithopod:6::H:84-71:China
+Barapasaurus:sauropod:14::H:185-170:India
+Barosaurus:sauropod:24::H:155-145:Tanzania, USA
+Baryonyx:large theropod:10:2000:C:125:Spain, UK
+Brachiosaurus:sauropod:30::H:155-140:Algeria, Portugal, Tanzania, USA
+Carcharodontosaurus:large theropod:15::C:98-94:North Africa
+Carnotaurus:large theropod:7.6::C:70:Argentina
+Centrosaurus:ceratopsian:6:1000:H:76-74:Canada
+Ceratosaurus:large theropod:6:970:C:153-148:Portugal, USA
+Chindesaurus:small theropod:4::C:227-210:USA
+Coelophysis:small theropod:2:27:C:225-190:South Africa, USA, Zimbabwe
+Dacentrurus:armored dinosaur:6::H:154-150:France, Portugal, UK
+Deinocheirus:large theropod:10::O:70-66:Mongolia
+Deinonychus:small theropod:3:75:C:120-110:USA
+Dilophosaurus:large theropod:6:300:C:190:USA
+Diplodocus:sauropod:26:15000:H:155-145:USA
+Edmontosaurus:euornithopod:13:3400:H:76-65:Canada
+Gastonia:armored dinosaur:4.6::H:142-127:USA
+Giganotosaurus:large theropod:12.5:8000:C:112-90:Argentina
+Gobisaurus:armored dinosaur:5::H:121-99:China
+Hadrosaurus:euornithopod:9::H:78-74:USA
+Heterodontosaurus:euornithopod:1.2::H:205:Lesotho, South Africa
+Iguanodon:euornithopod:10:4000:H:140-110:Belgium, UK
+Indosuchus:large theropod:7::C:71-65:India
+Isisaurus:sauropod:::H:71-65:India
+Kentrosaurus:armored dinosaur:5::H:155-150:Tanzania
+Kotasaurus:sauropod:9::H:205-190:India
+Leptoceratops:ceratopsian:3::H:67-65:Canada, USA
+Majungasaurus:large theropod:6::C:84-71:Madagascar
+Megalosaurus:large theropod:9::C:170-155:UK
+Microraptor:small theropod:0.8:1:C:125-122:China
+Monolophosaurus:large theropod:5.7::C:180-159:China
+Oviraptor:small theropod:2:20:O:85-75:Mongolia
+Parasaurolophus:euornithopod:11:3500:H:76-74:Canada, USA
+Patagosaurus:sauropod:18::H:164-159:Argentina
+Pentaceratops:ceratopsian:6.8::H:76-74:USA
+Plateosaurus:sauropod:7:4000:H:210:France, Germany, Switzerland
+Protoceratops:ceratopsian:1.8:400:H:74-70:China, Mongolia
+Riojasaurus:sauropod:5.15::O:221-210:Argentina
+Scutellosaurus:armored dinosour:1.2::H:205-202:USA
+Sinraptor:large theropod:7.6::C:169-142:China
+Spinosaurus:large theropod:18:4000:C:95-70:Egypt, Morocco
+Stegosaurus:armored dinosaur:9::H:155-145:USA
+Tarbosaurus:large theropod:10::C:74-70:China, Mongolia
+Thecodontosaurus:sauropod:2.5::O:227-205:UK
+Triceratops:ceratopsian:9:5500:H:68-66:USA
+Tyrannosaurus:large theropod:12:7000:C:68-66:Canada, USA
+Utahraptor:large theropod:6:1000:C:112-100:USA
+Velociraptor:small theropod:1.8:7:C:74-70:Mongolias

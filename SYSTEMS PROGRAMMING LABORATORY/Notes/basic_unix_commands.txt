@@ -1,0 +1,390 @@
+ls
+–l Long listing
+–a Show the hidden files also
+–R Recursively list the subdirectories, the subsubdirectories, and so on
+–t The sorting is with respect to the last modification times (newest first)
+–r Reverse the sorting order
+–d Do not expand the directory contents
+
+ls -lR / makes a long listing of the entire directory tree (excluding the
+hidden files).
+
+• Three types of users
+    • The user who owns the file (u)
+    • Other members of the same group as the owner (g)
+    • All other users (o)
+• Three types of permission
+    • Read permission (r)
+    • Write permission (w)
+    • Execute permission (x)
+• Read permission: 
+    You can read the contents of the directory (by ls). With only read
+    permission, you cannot access the files in the directory.
+• Write permission:    
+    You can create new files in the directory.
+• Execute permission:
+    You can go to the directory, and open and/or execute files in the
+    directory (provided you know the names). With only execute permission, you cannot see
+    the directory content.
+
+• Symbolic change: Add (+) or remove (–) a permission (r, w, x) for the user (u), group (g),
+others (o) or all (a).
+
+chmod g+x /home/sad/spl/prog/libstaque/a.out
+chmod o-rwx /home/sad/spl/prog/libstaque/static
+chmod a+w /home/sad/spl/prog/libstaque/shared
+• Numeric change: Set the permission bits as a three-digit octal number.
+
+chmod 755 /home/sad/spl/prog/libstaque/a.out
+chmod 666 /home/sad/spl/prog/libstaque/Makefile.txt
+chmod 700 ∼sad/spl/prog/libstaque/shared ∼sad/spl/prog/libstaque/static
+
+Use cd <dirname> to go to the directory <dirname>. The name may be absolute
+or relative. You should have -->execute<-- permission to go to the directory.
+
+cd without any argument lets you go to your home directory.
+
+mkdir <newdirname> lets you create a new directory <newdirname>. You should
+have -->write<-- permission in the directory where this new directory is created.
+
+rmdir <dirname> lets you remove the directory <dirname> provided that
+    • you have write permission in the parent of <dirname>, and
+    • <dirname> is empty
+
+• Use rm -r <dirname> to remove the entire subtree rooted at <dirname>
+(provided that you have permission to do so).
+
+• cp <file1> <file2> copies <file1> to <file2>.
+• mv <file1> <file2> moves (renames) <file1> to <file2>.
+• mv <file> <dir> moves <file> to directory <dir>.
+• You can copy or move more than one files, but then the last argument must be a
+directory.
+• You can copy or move an entire subtree with cp -r or mv -r.
+• You can delete a file (or multiple files) using rm <file1> <file2> ....
+• Use these commands with the option -i to see warning messages (like when
+something is overwritten).
+• wc <file1> <file2> ... gives the individual counts of characters, words, and
+lines in the files, and the sums of these counts (if there are multiple files). Meaningful
+for text files only.
+
+• You can open a text file using an editor (in the read-only mode if you only have read
+permission).
+• cat <textfile> prints the file content.
+• head <textfile> prints the first few lines of <textfile>.
+• tail <textfile> prints the last few lines of <textfile>.
+• Use less (or more) for a page-by-page display of the file. Some less commands:
+Up or down arrow One line up or down
+Space or f One page down
+b One page up
+d Half page down
+u Half page up
+g Go to the first page
+G Go to the last page
+/pattern Search for a pattern
+n Go to the next match
+N Go to the previous match
+q Quit the viewer
+
+• Three file descriptors: stdin (for reading), stdout (for writing output), stderr (for
+writing error messages)
+• command < file redirects the command’s stdin to the given file.
+• command > file redirects the command’s stdout to the given file.
+• command 2> file redirects the command’s stderr to the given file.
+• command > outfile 2> errfile redirects the command’s stdout to outfile and
+stderr to errfile.
+• Use >> if you want to append (> overwrites existing files).
+• command1 <cmd1args> | command2 <cmd2args> short-circuits command1’s
+stdout to command2’s stdin.
+
+
+• Commands are searched in some default directories (like /bin, /usr/bin, /usr/local/bin).
+• . (the current directory) may be absent in the default search path
+• You can set the environment variable PATH for setting/updating the search path
+export PATH="$PATH:newpath1:newpath2:newpath3:..."
+export PATH="$PATH:."
+• Paths are searched from beginning to end. Search stops as soon as the command is found.
+• which tells you the command first found. 
+whereis gives additional details. 
+whatis gives a short description. man opens the detailed manual page.
+
+Q1) Explain the different behaviors of ls -l /usr and ls -l /root
+-->
+ls -l /usr and ls -l /root are two different commands used to list the contents of two different directories on a Linux system.
+
+ls -l /usr will list the contents of the /usr directory in long format. 
+This means that it will display the file or directory names along with their permissions, ownership, size, and modification time. 
+/usr is a directory in Linux that contains user-related programs, libraries, and documentation. 
+This directory is generally used to store application software that is not required for system booting.
+
+On the other hand, ls -l /root will list the contents of the /root directory in long format. 
+/root is the home directory of the root user on a Linux system, and it is generally used for administrative tasks. 
+Since the root user has complete control over the system, the contents of the /root directory are typically not accessible by non-root users.
+
+Therefore, the behavior of ls -l /usr and ls -l /root will be different because they are listing the contents of two different directories, one containing user-related programs, and the other containing administrative files and directories that are typically only accessible by the root user.
+
+Q2)Enter the commands man printf and man 3 printf. Why do you get different outputs?
+-->
+The commands man printf and man 3 printf will both display the manual pages for the printf function in Linux, but they will provide different information.
+
+man printf will display the manual page for the printf command, which is a shell command used to format and print output to the terminal.
+The printf command is not the same as the printf function in the C programming language.
+
+On the other hand, man 3 printf will display the manual page for the printf function in the C programming language, which is a library function used to format and print output to the console. 
+The 3 in man 3 printf specifies that it is looking for the manual page for the C library function printf.
+
+Therefore, the reason for getting different outputs is that man printf is displaying the manual page for the shell command printf, while man 3 printf is displaying the manual page for the printf function in the C programming language.
+
+Q3) How can you enter multiple commands in a single line?
+-->
+In Linux, you can enter multiple commands in a single line by using command separators. The three command separators in Linux are:
+
+Semicolon (;): This separator is used to separate multiple commands that are executed sequentially, one after the other.
+
+Ampersand (&): This separator is used to run multiple commands simultaneously in the background.
+
+Double ampersand (&&): This separator is used to run the next command only if the previous command has executed successfully.
+
+Q4) How can you enter one command in multiple lines (like ls in one line and -l in the second)?
+-->
+In Linux, you can enter one command in multiple lines by using the backslash () character. 
+This character is used to escape the newline character and continue the command on the next line.
+
+ls \
+-l
+
+Q5)Enter the command wc without any arguments. Write a few lines, and then hit control-d
+(with the control button pressed, hit d) at the beginning of a new line. See what happens.
+Explain the output. What does control-d do here?
+-->
+When the wc command is executed without any arguments, it waits for input from the user. 
+If you type in some lines and hit the Enter key after each line, wc will count the number of lines, words, and characters in the input.
+
+For example, if we enter the following lines:
+
+This is line 1.
+This is line 2.
+This is line 3.
+And then hit Ctrl-d (i.e. the Ctrl key and the d key pressed simultaneously) at the beginning of a new line, wc will output:
+
+3 9 38
+
+This output indicates that there were 3 lines, 9 words, and 38 characters in the input that we provided. 
+The first number (3) is the number of lines, the second number (9) is the number of words, and the third number (38) is the number of characters (including spaces and newline characters).
+
+Ctrl-d is a keyboard shortcut that sends the EOF (End of File) signal to the shell, indicating that there is no more input to be read. 
+When we hit Ctrl-d at the beginning of a new line, it tells wc that there is no more input to be read and it should exit and display the results of its counts.
+
+Q6)Repeat the last exercise with cat (without any arguments).
+-->Takes one line only and prints it on pressing enter in next line
+
+Q7)What happens if you press control-c instead of control-d?
+-->
+If you press Ctrl-c instead of Ctrl-d when running a command that is waiting for input, it will send the SIGINT (Interrupt) signal to the command, causing it to terminate immediately.
+
+In the previous exercises, pressing Ctrl-c would have interrupted the cat or wc command and returned you to the shell prompt without displaying any output.
+
+It's important to note that Ctrl-c is a powerful keyboard shortcut that can interrupt a running command or program, and it should be used with caution. 
+If you accidentally interrupt a command or program using Ctrl-c, it may leave your system in an inconsistent state, so it's a good idea to save your work and exit any unsaved files before using this shortcut. 
+
+Q8)Enter ls -l | wc | wc as a command. Explain the output.
+-->      1       3      24
+
+Q9)Go to a directory that contains both regular files and subdirectories. Type the
+following commands and explain the differences: du, du -a, du -s, du -sk, du -sm,
+and du -sh. Explain the outputs
+-->
+du is a command that stands for "disk usage", and it is used to estimate the space used by a file or directory. 
+When run without any options, du will display the disk space used by the files and directories in the current directory, as well as the space used by any subdirectories.
+
+Here are the explanations for the different options:
+
+du: displays the disk space used by the files and directories in the current directory and all its subdirectories, in kilobytes.
+du -a: displays the disk space used by each file and directory in the current directory and all its subdirectories, in kilobytes.
+du -s: displays the total disk space used by the files and directories in the current directory, in kilobytes.
+du -sk: displays the disk space used by the files and directories in the current directory and all its subdirectories, in kilobytes, with the total at the end of the output in kilobytes.
+du -sm: displays the disk space used by the files and directories in the current directory and all its subdirectories, in megabytes, with the total at the end of the output in megabytes.
+du -sh: displays the disk space used by the files and directories in the current directory and all its subdirectories, in a human-readable format (such as "1.2M" for 1.2 megabytes), with the total at the end of the output in a similar format.
+The output of du commands will vary depending on the specific files and directories in the current directory. Here is an example of the output you might see when running these commands:
+
+$ du
+500     ./file1.txt
+1000    ./subdir1
+200     ./file2.txt
+1700    .
+This output shows that there are two regular files (file1.txt and file2.txt) in the current directory, as well as a subdirectory (subdir1). 
+The first column of numbers indicates the disk space used by each file or directory, in kilobytes. 
+The last line of the output (with a dot as the path) shows the total disk space used by the current directory and all its subdirectories (in this case, 1.7 MB).
+
+Here are some additional examples of the output of the du commands:
+
+
+$ du -a
+500     ./file1.txt
+1000    ./subdir1
+100     ./subdir1/file3.txt
+200     ./file2.txt
+1700    .
+
+$ du -s
+1700    .
+
+$ du -sk
+1700    .
+
+$ du -sm
+2       .
+
+$ du -sh
+1.7M    .
+In the above examples, the du -a command shows the disk space used by each file and directory, including those in subdirectories (subdir1/file3.txt). 
+The du -s command shows only the total disk space used by the current directory (including all subdirectories). 
+The du -sk and du -sm commands display the same information as du, but in different units (kilobytes and megabytes, respectively). 
+The du -sh command displays the disk space used in a human-readable format, with the total disk space used in megabytes.
+
+Q10)Try the command ls -l /dev. What kind of files do you see (look at the first character of
+each line)? What are these files?
+-->
+When you run the command ls -l /dev, you will see a list of files and devices in the /dev directory, which is where device files are typically located on Unix-based systems.
+
+The first character of each line in the output indicates the type of file or device:
+
+- indicates a regular file
+d indicates a directory
+c indicates a character device
+b indicates a block device
+l indicates a symbolic link
+p indicates a named pipe
+s indicates a Unix domain socket
+In the case of /dev, you will see mostly device files that are represented by the characters c or b. 
+These are special files that allow processes to communicate with hardware devices or other parts of the system.
+
+For example, /dev/sda is a device file that represents the first SATA hard disk on the system. 
+/dev/null is a special file that discards all data written to it, and /dev/random and /dev/urandom are special files that generate random data. 
+There are many other device files in the /dev directory, representing a wide range of hardware devices and system components.
+
+Q11)Explain why the count of links to a directory is always > 2 (look at the number appearing
+immediately after the permissions, in each line of ls -l).
+-->
+In Unix-based systems, every directory contains at least two links: the link to itself (represented by .) and the link to its parent directory (represented by ..). 
+These links are not visible by default when using the ls command, but you can see them by using the -a flag, which shows all files and directories, including hidden ones.
+
+So, when you run the command ls -l, the number of links shown in the output is always at least 2, because of these two hidden links. 
+If the directory contains subdirectories, each of those subdirectories will also have a link back to the parent directory, which adds to the link count.
+
+The link count for a directory can be useful for understanding the way that directories are structured and connected in the file system. 
+In general, directories with higher link counts are more heavily used, and may contain a larger number of files or subdirectories. 
+Additionally, some tools and utilities use the link count as a way of determining the number of hard links to a file or directory, which can be useful for various purposes such as backup and file management.
+
+Q12)2. [Symbolic links] Create a non-empty text file testfile.txt. See the directory listing
+using ls -l. Then type the command ln -s testfile.txt T. Do ls -l again. What
+is the permission of T? Try changing the permission of T as chmod 000 T. What happens?
+Why? Remove T. What happens? Create another symbolic link TT to testfile.txt.
+Remove testfile.txt. What happens?
+-->
+
+bratin@bratin03:~/SPLAB Bin/oops$ echo "This is a test file" > testfile.txt
+
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+-rw-rw-r-- 1 bratin bratin 20 Mar 13 19:35 testfile.txt
+
+bratin@bratin03:~/SPLAB Bin/oops$ 
+
+bratin@bratin03:~/SPLAB Bin/oops$ ln -s testfile.txt T
+
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+lrwxrwxrwx 1 bratin bratin 12 Mar 13 19:35 T -> testfile.txt
+-rw-rw-r-- 1 bratin bratin 20 Mar 13 19:35 testfile.txt
+
+bratin@bratin03:~/SPLAB Bin/oops$ chmod 000 T
+
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+lrwxrwxrwx 1 bratin bratin 12 Mar 13 19:35 T -> testfile.txt
+---------- 1 bratin bratin 20 Mar 13 19:35 testfile.txt
+bratin@bratin03:~/SPLAB Bin/oops$ rm T
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+---------- 1 bratin bratin 20 Mar 13 19:35 testfile.txt
+
+bratin@bratin03:~/SPLAB Bin/oops$ ln -s testfile.txt TT
+
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+---------- 1 bratin bratin 20 Mar 13 19:35 testfile.txt
+lrwxrwxrwx 1 bratin bratin 12 Mar 13 19:39 TT -> testfile.txt
+
+bratin@bratin03:~/SPLAB Bin/oops$ rm testfile.txt 
+rm: remove write-protected regular file 'testfile.txt'? y
+
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 0
+lrwxrwxrwx 1 bratin bratin 12 Mar 13 19:39 TT -> testfile.txt
+
+Q13)[Hard links] Create a text file abc.txt. See the directory listing. Then enter the command
+ln abc.txt ABC.txt. Again see the directory listing. What are the differences? Explain.
+Add some extra lines to abc.txt. Again see the directory listing. Explain the changes.
+Remove the original file abc.txt. Explain what the directory listing shows.
+-->
+bratin@bratin03:~/SPLAB Bin/oops$ echo "This is a test file" > abc.txt
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+-rw-rw-r-- 1 bratin bratin 20 Mar 13 19:42 abc.txt
+bratin@bratin03:~/SPLAB Bin/oops$ ln abc.txt ABC.txt
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 8
+-rw-rw-r-- 2 bratin bratin 20 Mar 13 19:42 abc.txt
+-rw-rw-r-- 2 bratin bratin 20 Mar 13 19:42 ABC.txt
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 8
+-rw-rw-r-- 2 bratin bratin 32 Mar 13 19:43 abc.txt
+-rw-rw-r-- 2 bratin bratin 32 Mar 13 19:43 ABC.txt
+bratin@bratin03:~/SPLAB Bin/oops$ cat 
+abc.txt  ABC.txt  
+bratin@bratin03:~/SPLAB Bin/oops$ cat abc.txt 
+This is a test file
+I am bratin
+bratin@bratin03:~/SPLAB Bin/oops$ cat ABC.txt 
+This is a test file
+I am bratin
+bratin@bratin03:~/SPLAB Bin/oops$ rm abc.txt 
+bratin@bratin03:~/SPLAB Bin/oops$ ls -l
+total 4
+-rw-rw-r-- 1 bratin bratin 32 Mar 13 19:43 ABC.txt
+
+Q14) Study the commands pwd, chmod -R, chown, chgrp, date, time, strings, and exit
+-->
+pwd: This command stands for "print working directory" and is used to print the name of the current working directory.
+
+chmod -R: This command is used to change the permissions of files and directories recursively. 
+The -R option stands for "recursive", which means that the command will apply the same changes to all subdirectories and their files.
+
+chown: This command is used to change the owner of a file or directory. 
+You can specify the new owner by either the username or user ID.
+
+chgrp: This command is used to change the group ownership of a file or directory. 
+You can specify the new group by either the group name or group ID.
+
+date: This command is used to print or set the system date and time.
+
+time: This command is used to measure the execution time of a command or shell script.
+
+strings: This command is used to extract printable strings from a binary file.
+
+exit: This command is used to exit a shell or terminate a script. 
+It takes an optional exit status as an argument, which can be used to indicate success or failure of the script.
+
+Q15)Enter the command cal 1752, and look at September. Can you explain?
+-->
+Yes, the output of the cal 1752 command shows an interesting historical anomaly in the Gregorian calendar. 
+September of 1752 in the UK and its colonies was a unique month because the British Empire, along with its colonies, including what is now the United States, adopted the Gregorian calendar. 
+The calendar replaced the Julian calendar, which was used before that time.
+
+The change from the Julian to the Gregorian calendar meant that 11 days had to be dropped to align the calendar with the solar year. 
+The British Empire and its colonies made this adjustment by skipping the dates of September 3-13, 1752. 
+This means that in that year, September only had 19 days instead of the usual 30 or 31 days, as can be seen in the output of the cal 1752 command.
+
+
+
+
