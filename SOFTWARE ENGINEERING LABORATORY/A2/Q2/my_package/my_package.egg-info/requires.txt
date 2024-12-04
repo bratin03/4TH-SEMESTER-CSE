@@ -1,0 +1,11 @@
+numpy==1.21.5
+opencv-python-headless
+Pillow==9.4.0
+spacy
+torchvision
+jsonlines==3.1.0
+pillow
+requests
+en_core_web_sm
+torch
+salesforce-lavis
